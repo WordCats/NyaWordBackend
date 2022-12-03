@@ -1,4 +1,6 @@
-const express = require("express");
+import express from "express";
+import { config } from "dotenv";
+config(); // <-- Setting environment variables
 const app = express();
 const port = process.env.PORT || 3001;
 
