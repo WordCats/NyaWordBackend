@@ -3,19 +3,191 @@
 
 generator client {
   provider = "prisma-client-js"
-  previewFeatures = ["referentialIntegrity"]
 }
 
 datasource db {
-  provider = "mysql"
-  url      = env("DATABASE_URL")
+  provider          = "mysql"
+  url               = env("DATABASE_DEV_URL")
   shadowDatabaseUrl = env("SHADOW_DATABASE_URL")
-  referentialIntegrity = "prisma"
+  relationMode      = "prisma"
 }
 
+model user {
+  id                   Int                 @id @default(autoincrement())
+  name                 String              @db.VarChar(255)
+  password             String              @db.VarChar(255)
+  email                String              @unique @db.VarChar(255)
+  image                String?             @db.LongText
+  status               Int                 @db.TinyInt
+  created_at           DateTime            @default(now()) @db.DateTime
+  update_at            DateTime?           @db.DateTime
+  histories            history[]
+  history_comments     history_comment[]
+  user_likes           user_like[]
+  histories_complaints history_complaint[]
+  histories_galleries  history_gallery[]
+  categories           user_has_category[]
+  email_verified       email_verify?
+  roles                user_has_roles[]
+}
 
-model User {
-  id    Int     @id @default(autoincrement())
-  email String  @unique
-  name  String?
+model history {
+  id         Int       @id @default(autoincrement())
+  title      String    @db.VarChar(255)
+  history    String    @db.LongText
+  user_id    Int
+  status     Int       @db.TinyInt
+  recomended Int       @db.TinyInt
+  likes      Int
+  created_at DateTime  @default(now()) @db.DateTime
+  update_at  DateTime? @db.DateTime
+
+  user user @relation(fields: [user_id], references: [id])
+
+  comments    history_comment[]
+  users_likes user_like[]
+  complaints  history_complaint[]
+  gallery     history_gallery[]
+  categories  history_has_category[]
+
+  @@index([user_id])
+}
+
+model history_comment {
+  id         Int       @id @default(autoincrement())
+  history_id Int
+  user_id    Int
+  commentary String    @db.MediumText
+  created_at DateTime  @default(now()) @db.DateTime
+  update_at  DateTime? @db.DateTime
+
+  history history @relation(fields: [history_id], references: [id])
+
+  user user @relation(fields: [user_id], references: [id])
+
+  @@index([history_id])
+  @@index([user_id])
+}
+
+model user_like {
+  id         Int      @id @default(autoincrement())
+  history_id Int
+  user_id    Int
+  created_at DateTime @default(now()) @db.DateTime
+
+  history history @relation(fields: [history_id], references: [id])
+  user    user    @relation(fields: [user_id], references: [id])
+
+  @@index([user_id])
+  @@index([history_id])
+}
+
+model history_complaint {
+  id         Int      @id @default(autoincrement())
+  history_id Int
+  user_id    Int
+  created_at DateTime @default(now()) @db.DateTime
+
+  history history @relation(fields: [history_id], references: [id])
+  user    user    @relation(fields: [user_id], references: [id])
+
+  @@index([user_id])
+  @@index([history_id])
+}
+
+model history_gallery {
+  id         Int    @id @default(autoincrement())
+  user_id    Int
+  history_id Int
+  file       String @db.VarChar(255)
+  main       Int    @db.TinyInt
+
+  history history @relation(fields: [history_id], references: [id])
+  user    user    @relation(fields: [user_id], references: [id])
+
+  @@index([user_id])
+  @@index([history_id])
+}
+
+model category {
+  id         Int       @id @default(autoincrement())
+  name       String    @db.VarChar(255)
+  created_at DateTime  @default(now()) @db.DateTime
+  update_at  DateTime? @db.DateTime
+
+  users_has_categories     user_has_category[]
+  histories_has_categories history_has_category[]
+}
+
+model user_has_category {
+  id          Int @id @default(autoincrement())
+  user_id     Int
+  category_id Int
+
+  category category @relation(fields: [category_id], references: [id])
+  user     user     @relation(fields: [user_id], references: [id])
+
+  @@index([user_id])
+  @@index([category_id])
+}
+
+model history_has_category {
+  id          Int @id @default(autoincrement())
+  history_id  Int
+  category_id Int
+
+  category category @relation(fields: [category_id], references: [id])
+  history  history  @relation(fields: [history_id], references: [id])
+
+  @@index([history_id])
+  @@index([category_id])
+}
+
+model email_verify {
+  id          Int       @id @default(autoincrement())
+  user_id     Int       @unique
+  token       String    @default(uuid())
+  verified_at DateTime? @db.DateTime
+  created_at  DateTime  @default(now()) @db.DateTime
+
+  user user @relation(fields: [user_id], references: [id])
+
+  @@index([user_id])
+}
+
+model role {
+  id          Int                    @id @default(autoincrement())
+  name        String                 @unique
+  permissions role_has_permissions[]
+  users       user_has_roles[]
+}
+
+model permission {
+  id    Int                    @id @default(autoincrement())
+  name  String                 @unique
+  roles role_has_permissions[]
+}
+
+model role_has_permissions {
+  id            Int @id @default(autoincrement())
+  role_id       Int
+  permission_id Int
+
+  role       role       @relation(fields: [role_id], references: [id])
+  permission permission @relation(fields: [permission_id], references: [id])
+
+  @@index([role_id])
+  @@index([permission_id])
+}
+
+model user_has_roles {
+  id      Int @id @default(autoincrement())
+  user_id Int
+  role_id Int
+
+  user user @relation(fields: [user_id], references: [id])
+  role role @relation(fields: [role_id], references: [id])
+
+  @@index([user_id])
+  @@index([role_id])
 }
