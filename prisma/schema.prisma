@@ -19,7 +19,7 @@ model user {
   email                String              @unique @db.VarChar(255)
   image                String?             @db.LongText
   status               Int                 @db.TinyInt
-  created_at           DateTime            @default(now()) @db.DateTime
+  created_at           DateTime            @db.DateTime
   update_at            DateTime?           @db.DateTime
   histories            history[]
   history_comments     history_comment[]
@@ -39,7 +39,7 @@ model history {
   status     Int       @db.TinyInt
   recomended Int       @db.TinyInt
   likes      Int
-  created_at DateTime  @default(now()) @db.DateTime
+  created_at DateTime  @db.DateTime
   update_at  DateTime? @db.DateTime
 
   user user @relation(fields: [user_id], references: [id])
@@ -49,6 +49,7 @@ model history {
   complaints  history_complaint[]
   gallery     history_gallery[]
   categories  history_has_category[]
+  volumes     volume[]
 
   @@index([user_id])
 }
@@ -58,7 +59,7 @@ model history_comment {
   history_id Int
   user_id    Int
   commentary String    @db.MediumText
-  created_at DateTime  @default(now()) @db.DateTime
+  created_at DateTime  @db.DateTime
   update_at  DateTime? @db.DateTime
 
   history history @relation(fields: [history_id], references: [id])
@@ -73,7 +74,7 @@ model user_like {
   id         Int      @id @default(autoincrement())
   history_id Int
   user_id    Int
-  created_at DateTime @default(now()) @db.DateTime
+  created_at DateTime @db.DateTime
 
   history history @relation(fields: [history_id], references: [id])
   user    user    @relation(fields: [user_id], references: [id])
@@ -86,7 +87,7 @@ model history_complaint {
   id         Int      @id @default(autoincrement())
   history_id Int
   user_id    Int
-  created_at DateTime @default(now()) @db.DateTime
+  created_at DateTime @db.DateTime
 
   history history @relation(fields: [history_id], references: [id])
   user    user    @relation(fields: [user_id], references: [id])
@@ -112,7 +113,7 @@ model history_gallery {
 model category {
   id         Int       @id @default(autoincrement())
   name       String    @db.VarChar(255)
-  created_at DateTime  @default(now()) @db.DateTime
+  created_at DateTime  @db.DateTime
   update_at  DateTime? @db.DateTime
 
   users_has_categories     user_has_category[]
@@ -148,7 +149,7 @@ model email_verify {
   user_id     Int       @unique
   token       String    @default(uuid())
   verified_at DateTime? @db.DateTime
-  created_at  DateTime  @default(now()) @db.DateTime
+  created_at  DateTime  @db.DateTime
 
   user user @relation(fields: [user_id], references: [id])
 
@@ -190,4 +191,30 @@ model user_has_roles {
 
   @@index([user_id])
   @@index([role_id])
+}
+
+model volume {
+  id         Int       @id @default(autoincrement())
+  number     Int
+  history_id Int
+  created_at DateTime  @db.DateTime()
+  updated_at DateTime? @db.DateTime()
+
+  history  history   @relation(fields: [history_id], references: [id])
+  chapters chapter[]
+
+  @@index([history_id])
+}
+
+model chapter {
+  int        Int       @id @default(autoincrement())
+  number     Int
+  title      String    @db.VarChar(255)
+  volume_id  Int
+  created_at DateTime  @db.DateTime()
+  updated_at DateTime? @db.DateTime()
+
+  volume volume @relation(fields: [volume_id], references: [id])
+
+  @@index([volume_id])
 }

@@ -1,8 +1,13 @@
 import { User } from "../../entities/User";
 
-export type ActivationToken = string;
+export interface IUserResources {
+  activationToken: string;
+  userId: number;
+}
 
 export interface IUserRepository {
-  saveAndGetGeneratedActivationToken(userData: User): Promise<ActivationToken>;
+  saveAndGetUserResources(userData: User): Promise<IUserResources>;
   userAlreadyExists(userEmail: string): Promise<boolean>;
+  userAlreadyActivated(activationToken: string): Promise<boolean>;
+  activateUser(activationToken: string): Promise<void>;
 }
