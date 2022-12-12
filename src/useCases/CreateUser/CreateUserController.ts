@@ -9,9 +9,14 @@ export class CreateUserController {
   ) {}
   
   async handle(req: Request, res: Response) {
-    const { name, email, password } = req.body as CreateUserDTO;
-        
-    const userData = new User(name, email, password, 10);
+    const { 
+      name, 
+      email, 
+      password, 
+      favoriteCategories, 
+    } = req.body as CreateUserDTO;
+
+    const userData = new User(name, email, password, 1, favoriteCategories);
 
     try {
       const acessToken = await this.createUserUseCase.execute(userData); 

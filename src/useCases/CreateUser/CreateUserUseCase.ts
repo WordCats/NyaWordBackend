@@ -18,7 +18,7 @@ export class CreateUserUseCase {
 
     const { activationToken, userId } = await this.userRepository.saveAndGetUserResources(userData);
 
-    this.mailProvider.sendMail({
+    await this.mailProvider.sendMail({
       from: {
         name: 'Equipe Word Cats',
         email: 'wordcatsnya@gmail.com',
