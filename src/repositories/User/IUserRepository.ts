@@ -1,4 +1,3 @@
-import { Category } from "../../entities/Category";
 import { User } from "../../entities/User";
 
 export interface IUserResources {
@@ -11,5 +10,4 @@ export interface IUserRepository {
   userAlreadyExists(userEmail: string): Promise<boolean>;
   userAlreadyActivated(activationToken: string): Promise<boolean>;
   activateUser(activationToken: string): Promise<void>;
-  getUserFavoriteCategories(userId: number): Promise<Category[]>;
 }

@@ -1,10 +1,10 @@
-import { PrismaUserRepository } from "../../repositories/User/implementation/PrismaUserRepository";
+import { PrismaCategoryRepository } from "../../repositories/Category/implementation/PrismaCategoryRepository";
 import { GetUserFavoriteCategoriesController } from "./GetUserFavoriteCategoriesController";
 import { GetUserFavoriteCategoriesUseCase } from "./GetUserFavoriteCategoriesUseCase";
 
-const prismaUserRespository = new PrismaUserRepository();
+const prismaCategoryRepository = new PrismaCategoryRepository();
 const getUserFavoriteCategoriesUseCase = new GetUserFavoriteCategoriesUseCase(
-  prismaUserRespository,
+  prismaCategoryRepository,
 );
 const getUserFavoriteCategoriesController = new GetUserFavoriteCategoriesController(
   getUserFavoriteCategoriesUseCase,

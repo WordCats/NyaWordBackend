@@ -1,7 +1,6 @@
 import { User } from "../../../entities/User";
 import { IUserRepository, IUserResources } from "../IUserRepository";
-import { PrismaClient, user_has_category } from "@prisma/client";
-import { Category } from "../../../entities/Category";
+import { PrismaClient } from "@prisma/client";
 
 export class PrismaUserRepository implements IUserRepository {
   private prisma = new PrismaClient();
@@ -103,35 +102,5 @@ export class PrismaUserRepository implements IUserRepository {
     });
 
     await this.prisma.$disconnect();
-  }
-
-  async getUserFavoriteCategories(userId: number): Promise<Category[]> {
-    await this.prisma.$connect();
-
-    const favoriteCategoriesNumbers = await this.prisma.user_has_category.findMany({
-      where: {
-        user_id: userId,
-      },
-    });
-
-    let favoriteCategories: Category[] = [];
-
-    for (const fgn of favoriteCategoriesNumbers) {
-      const category = await this.prisma.category.findUnique({
-        where: {
-          id: fgn.category_id,
-        },
-      })
-      favoriteCategories.push(new Category(
-        category!.name,
-        category!.created_at,
-        category!.id,
-        category!.update_at,
-      ));
-    }
-
-    await this.prisma.$disconnect();
-    
-    return favoriteCategories;
   }
 }

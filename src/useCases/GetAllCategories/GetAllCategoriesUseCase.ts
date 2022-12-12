@@ -1,13 +1,11 @@
 import { ICategoryRepository } from "../../repositories/Category/ICategoryRepository";
 
-export class GetUserFavoriteCategoriesUseCase {
+export class GetAllCategoriesUseCase {
   constructor(
     private readonly categoryRepository: ICategoryRepository,
   ) {}
 
-  async execute(userId: number) {
-    return await this.categoryRepository.getUserFavoriteCategories(
-      userId
-    ); 
+  async execute() {
+    return this.categoryRepository.getAllCategories();
   }
 }

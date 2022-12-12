@@ -9,7 +9,7 @@ export class GetUserFavoriteCategoriesController {
   async handle(req: Request, res: Response) {
     const { userId } = req.params;
   
-    try{ 
+    try {
       const favoriteCategories = await this.getUserFavoriteCategoriesUseCase.execute(Number(userId));
       res.status(200).send({
         status: "Sucess!",
