@@ -10,8 +10,9 @@ export class GetAllCategoriesController {
     try {
       const availableCategories = await this.getAllCategoriesUseCase.execute();
       res.status(200).send({
-        status: "Sucess!",
-        availableCategories,
+        status: 200,
+        message: "Sucess!",
+        data: availableCategories,
       })
     } catch(e) {
       const err = e as Error;

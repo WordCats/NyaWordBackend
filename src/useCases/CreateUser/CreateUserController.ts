@@ -21,8 +21,9 @@ export class CreateUserController {
     try {
       const acessToken = await this.createUserUseCase.execute(userData); 
       res.status(201).send({
-        status: "User Created!",
-        acessToken,
+        status: 201,
+        message: "User Created!",
+        data: acessToken,
       });
     } catch(e) {
       const err = e as Error;

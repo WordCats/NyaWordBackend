@@ -13,7 +13,8 @@ export class ActivateUserController {
     try {
       await this.activateUserUseCase.execute(activationToken);
       res.status(200).send({
-        status: "User account activated!",
+        status: 200,
+        message: "User account activated!",
       });
     } catch(e) {
       const err = e as Error; 

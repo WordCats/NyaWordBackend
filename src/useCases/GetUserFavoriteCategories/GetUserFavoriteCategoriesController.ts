@@ -12,8 +12,9 @@ export class GetUserFavoriteCategoriesController {
     try {
       const favoriteCategories = await this.getUserFavoriteCategoriesUseCase.execute(Number(userId));
       res.status(200).send({
-        status: "Sucess!",
-        favoriteCategories,
+        status: 200,
+        message: "Sucess!",
+        data: favoriteCategories,
       })
     } catch(e) {
       const err = e as Error;
