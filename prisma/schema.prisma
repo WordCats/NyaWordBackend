@@ -34,7 +34,6 @@ model user {
 model history {
   id         Int       @id @default(autoincrement())
   title      String    @db.VarChar(255)
-  history    String    @db.LongText
   user_id    Int
   status     Int       @db.TinyInt
   recomended Int       @db.TinyInt
@@ -210,6 +209,7 @@ model chapter {
   int        Int       @id @default(autoincrement())
   number     Int
   title      String    @db.VarChar(255)
+  content    String    @db.LongText
   volume_id  Int
   created_at DateTime  @db.DateTime()
   updated_at DateTime? @db.DateTime()
