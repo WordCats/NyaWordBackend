@@ -1,4 +1,4 @@
-import { PrismaUserRepository } from "../../repositories/User/implementation/PrismaUserRepository";
+import { PrismaUserRepository } from "../../../repositories/User/implementation/PrismaUserRepository";
 import { ActivateUserController } from "./ActivateUserController";
 import { ActivateUserUseCase } from "./ActivateUserUseCase";
 

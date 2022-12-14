@@ -61,17 +61,13 @@ export class PrismaUserRepository implements IUserRepository {
   async userAlreadyActivated(activationToken: string): Promise<boolean> {
     await this.prisma.$connect();
 
-    const emailFinded = await this.prisma.email_verify.findFirst({
+    const userFinded = await this.prisma.email_verify.findFirst({
       where: {
         token: activationToken,
       },
     });
 
-    if (emailFinded == null) {
-      throw new Error('This activation token is invalid!');
-    }
-
-    if (emailFinded.verified_at instanceof Date) {
+    if (userFinded?.verified_at instanceof Date) {
       await this.prisma.$disconnect();
       return true;
     }
@@ -80,10 +76,10 @@ export class PrismaUserRepository implements IUserRepository {
     return false;
   }
 
-  async activateUser(activationToken: string): Promise<void> {
+  async activateUser(activationToken: string) {
     await this.prisma.$connect();
 
-    const emailFinded = await this.prisma.email_verify.findFirst({
+    const user = await this.prisma.email_verify.findFirst({
       where: {
         token: activationToken,
       },
@@ -92,9 +88,11 @@ export class PrismaUserRepository implements IUserRepository {
       },
     });
 
+    const user_id = user?.user_id;
+
     await this.prisma.email_verify.update({
       where: {
-        user_id: emailFinded!.user_id,
+        user_id,
       },
       data: {
         verified_at: new Date(),

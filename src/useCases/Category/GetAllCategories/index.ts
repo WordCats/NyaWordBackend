@@ -1,4 +1,4 @@
-import { PrismaCategoryRepository } from "../../repositories/Category/implementation/PrismaCategoryRepository";
+import { PrismaCategoryRepository } from "../../../repositories/Category/implementation/PrismaCategoryRepository";
 import { GetAllCategoriesController } from "./GetAllCategoriesController";
 import { GetAllCategoriesUseCase } from "./GetAllCategoriesUseCase";
 

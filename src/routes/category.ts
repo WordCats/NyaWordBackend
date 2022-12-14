@@ -1,6 +1,6 @@
 import { Router } from "express";
-import { getAllCategoriesController } from "../useCases/GetAllCategories";
-import { getUserFavoriteCategoriesController } from "../useCases/GetUserFavoriteCategories";
+import { getAllCategoriesController } from "../useCases/Category/GetAllCategories";
+import { getUserFavoriteCategoriesController } from "../useCases/Category/GetUserFavoriteCategories";
 
 export const categoryRouter = Router();
 

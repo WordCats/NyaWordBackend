@@ -1,15 +1,15 @@
 type CategoryId = number;
 
 export class User {
-  id: number | undefined;
-  name: string;
-  password: string;
-  email: string;
-  image: string | null | undefined;
-  status: number;
-  created_at: string | undefined | null;
-  update_at: string | null | undefined;
-  favorite_categories: CategoryId[];
+  readonly id: number | undefined;
+  readonly name: string;
+  readonly password: string;
+  readonly email: string;
+  readonly image: string | null | undefined;
+  readonly status: number;
+  readonly created_at: string | undefined | null;
+  readonly update_at: string | null | undefined;
+  readonly favorite_categories: CategoryId[];
 
   constructor(
     name: string,

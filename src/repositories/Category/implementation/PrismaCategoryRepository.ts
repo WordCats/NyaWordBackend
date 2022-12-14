@@ -1,7 +1,8 @@
 import { PrismaClient } from "@prisma/client";
 import { Category } from "../../../entities/Category";
+import { ICategoryRepository } from "../ICategoryRepository";
 
-export class PrismaCategoryRepository {
+export class PrismaCategoryRepository implements ICategoryRepository {
   private readonly prisma = new PrismaClient();
 
   async getAllCategories(): Promise<Category[]> {

@@ -1,4 +1,4 @@
-import { PrismaCategoryRepository } from "../../repositories/Category/implementation/PrismaCategoryRepository";
+import { PrismaCategoryRepository } from "../../../repositories/Category/implementation/PrismaCategoryRepository";
 import { GetUserFavoriteCategoriesController } from "./GetUserFavoriteCategoriesController";
 import { GetUserFavoriteCategoriesUseCase } from "./GetUserFavoriteCategoriesUseCase";
 

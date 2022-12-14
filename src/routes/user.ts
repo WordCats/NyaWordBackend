@@ -1,6 +1,6 @@
 import { Router } from "express";
-import { activateUserController } from "../useCases/ActivateUser";
-import { createUserController } from "../useCases/CreateUser";
+import { activateUserController } from "../useCases/User/ActivateUser";
+import { createUserController } from "../useCases/User/CreateUser";
 
 export const userRouter = Router();
 

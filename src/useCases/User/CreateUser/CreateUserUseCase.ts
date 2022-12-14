@@ -1,6 +1,6 @@
-import { User } from "../../entities/User";
-import { IMailProvider } from "../../providers/Mail/IMailProvider";
-import { IUserRepository } from "../../repositories/User/IUserRepository";
+import { User } from "../../../entities/User";
+import { IMailProvider } from "../../../providers/Mail/IMailProvider";
+import { IUserRepository } from "../../../repositories/User/IUserRepository";
 import jwt from "jsonwebtoken";
 
 export class CreateUserUseCase {

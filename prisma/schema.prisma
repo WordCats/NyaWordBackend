@@ -33,7 +33,7 @@ model user {
 
 model history {
   id         Int       @id @default(autoincrement())
-  title      String    @db.VarChar(255)
+  title      String    @unique @db.VarChar(255)
   user_id    Int
   status     Int       @db.TinyInt
   recomended Int       @db.TinyInt
