@@ -1,5 +1,7 @@
 import { Request, Response } from "express";
 import { History } from "../../../entities/History";
+import { DecodeJWT } from "../../../helpers/jwt/decodeJwt";
+import { IAcessToken } from "../../../helpers/jwt/IAcessToken";
 import { CreateHistoryDTO } from "./CreateHistoryDTO";
 import { CreateHistoryUseCase } from "./CreateHistoryUseCase";
 
@@ -11,8 +13,11 @@ export class CreateHistoryController {
   async handle(req: Request, res: Response) {
     const requestBody = req.body as CreateHistoryDTO;
 
+    const { userId: user_id } = DecodeJWT(req.headers.authorization!) as IAcessToken;
+
     const history = new History({
       ...requestBody,
+      user_id,
       status: 1,
       likes: 0,
       created_at: new Date(),

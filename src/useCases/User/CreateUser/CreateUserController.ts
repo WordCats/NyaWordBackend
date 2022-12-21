@@ -13,7 +13,7 @@ export class CreateUserController {
       name, 
       email, 
       password, 
-      favoriteCategories, 
+      favoriteCategories,
     } = req.body as CreateUserDTO;
 
     const userData = new User(name, email, password, 1, favoriteCategories);
