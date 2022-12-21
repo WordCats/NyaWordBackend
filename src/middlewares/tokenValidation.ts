@@ -12,7 +12,7 @@ export function TokenValidation(req: Request, res: Response, next: NextFunction)
   }
 
   try {
-    const payload = jwt.verify(acessToken!, process.env.JWT_SECRET!);
+    jwt.verify(acessToken!, process.env.JWT_SECRET!);
     next();
   } catch(e: any) {
 

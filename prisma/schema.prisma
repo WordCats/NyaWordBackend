@@ -32,14 +32,16 @@ model user {
 }
 
 model history {
-  id         Int       @id @default(autoincrement())
-  title      String    @unique @db.VarChar(255)
-  user_id    Int
-  status     Int       @db.TinyInt
-  recomended Int       @db.TinyInt
-  likes      Int
-  created_at DateTime  @db.DateTime
-  update_at  DateTime? @db.DateTime
+  id          Int       @id @default(autoincrement())
+  title       String    @unique @db.VarChar(255)
+  user_id     Int
+  status      Int       @db.TinyInt
+  recomended  Int       @db.TinyInt
+  likes       Int
+  description String    @db.LongText
+  language    String    @db.VarChar(50)
+  created_at  DateTime  @db.DateTime
+  update_at   DateTime? @db.DateTime
 
   user user @relation(fields: [user_id], references: [id])
 
@@ -206,7 +208,7 @@ model volume {
 }
 
 model chapter {
-  int        Int       @id @default(autoincrement())
+  id         Int       @id @default(autoincrement())
   number     Int
   title      String    @db.VarChar(255)
   content    String    @db.LongText

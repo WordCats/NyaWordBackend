@@ -9,18 +9,14 @@ export class CreateHistoryController {
   ) {}
 
   async handle(req: Request, res: Response) {
-    const { recomended, title, user_id } = req.body as CreateHistoryDTO;
-    
-    const history = new History(
-      title,
-      user_id,
-      1, 
-      recomended, 
-      0, 
-      new Date(), 
-      null, 
-      undefined
-    );
+    const requestBody = req.body as CreateHistoryDTO;
+
+    const history = new History({
+      ...requestBody,
+      status: 1,
+      likes: 0,
+      created_at: new Date(),
+    });
 
     try {
       await this.createHistoryUseCase.execute(history);

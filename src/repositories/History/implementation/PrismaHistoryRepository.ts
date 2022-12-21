@@ -9,7 +9,7 @@ export class PrismaHistoryRepository implements IHistoryRepository {
     await this.prisma.$connect();
     
     await this.prisma.history.create({
-      data: historyData,
+      data: historyData.props,
     });
 
     await this.prisma.$disconnect();
