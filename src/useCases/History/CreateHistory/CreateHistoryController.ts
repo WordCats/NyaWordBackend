@@ -20,6 +20,7 @@ export class CreateHistoryController {
       user_id,
       status: 1,
       likes: 0,
+      recomended: 0,
       created_at: new Date(),
     });
 

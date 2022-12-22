@@ -7,6 +7,6 @@ export const historyRouter = Router();
 
 historyRouter.use(TokenValidation);
 
-historyRouter.post('/histories', userShouldCan(['create:history']), (req, res) => {
+historyRouter.post('/histories', (req, res) => {
   return createHistoryController.handle(req, res);
 });

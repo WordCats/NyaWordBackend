@@ -25,7 +25,6 @@ model user {
   history_comments     history_comment[]
   user_likes           user_like[]
   histories_complaints history_complaint[]
-  histories_galleries  history_gallery[]
   favorite_categories  user_has_category[]
   email_verified       email_verify?
   roles                user_has_roles[]
@@ -99,15 +98,12 @@ model history_complaint {
 
 model history_gallery {
   id         Int    @id @default(autoincrement())
-  user_id    Int
   history_id Int
   file       String @db.VarChar(255)
   main       Int    @db.TinyInt
 
   history history @relation(fields: [history_id], references: [id])
-  user    user    @relation(fields: [user_id], references: [id])
 
-  @@index([user_id])
   @@index([history_id])
 }
 
