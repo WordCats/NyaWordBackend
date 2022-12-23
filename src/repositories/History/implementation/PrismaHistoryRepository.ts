@@ -1,6 +1,6 @@
 import { PrismaClient } from "@prisma/client";
 import { History } from "../../../entities/History";
-import { IHistoryRepository } from "../IHistoryRepository";
+import { IHistoryRepository, IListHistoriesResponse } from "../IHistoryRepository";
 
 export class PrismaHistoryRepository implements IHistoryRepository {
   private readonly prisma = new PrismaClient();
@@ -45,5 +45,106 @@ export class PrismaHistoryRepository implements IHistoryRepository {
     });
 
     await this.prisma.$disconnect();
+  }
+
+  async listHistories(page: number, quantility: number) {
+    await this.prisma.$connect();
+    
+    let numberOfItemsPerPage = quantility;
+    let cursor = (page - 1) * numberOfItemsPerPage;
+
+    const historiesData = await this.prisma.history.findMany({
+      select: {
+        title: true,
+        description: true,
+        likes: true,
+        gallery: {
+          select: {
+            file: true,
+          },
+          where: {
+            main: 1,
+          },
+        },
+        user: {
+          select: {
+            name: true,
+            image: true,
+          },
+        },
+      },
+      skip: cursor,
+      take: numberOfItemsPerPage,
+    });
+
+    const histories: IListHistoriesResponse[] = historiesData.map(data => {
+      return {
+        title: data.title,
+        description: data.description,
+        likes: data.likes,
+        author_name: data.user.name,
+        author_image: data.user.image,
+        mainImage: data.gallery[0].file,
+      };
+    });
+
+    await this.prisma.$disconnect();
+
+    return histories;
+  }
+
+  async listHistoriesByCategory(page: number, quantility: number, category: string) {
+    await this.prisma.$connect();
+
+    let numberOfItemsPerPage = quantility;
+    let cursor = (page - 1) * numberOfItemsPerPage;
+
+    const historiesData = await this.prisma.history.findMany({
+      where: {
+        categories: {
+          every: {
+            category: {
+              name: category,
+            },
+          },
+        },
+      },
+      select: {
+        title: true,
+        description: true,
+        likes: true,
+        gallery: {
+          select: {
+            file: true,
+          },
+          where: {
+            main: 1,
+          },
+        },
+        user: {
+          select: {
+            name: true,
+            image: true,
+          },
+        },
+      },
+      skip: cursor,
+      take: numberOfItemsPerPage,
+    });
+
+    const histories: IListHistoriesResponse[] = historiesData.map(data => {
+      return {
+        title: data.title,
+        description: data.description,
+        likes: data.likes,
+        author_name: data.user.name,
+        author_image: data.user.image,
+        mainImage: data.gallery[0].file,
+      };
+    });
+
+    await this.prisma.$disconnect();
+
+    return histories;
   }
 }
